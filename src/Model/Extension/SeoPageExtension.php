@@ -108,11 +108,11 @@ class SeoPageExtension extends DataExtension
         'HeadTags'      => SeoHeadTag::class,
         'SitemapImages' => Image::class
     ];
-    
+
     private static $owns = [
         'SocialImage'
     ];
-    
+
 
     /**
      * Sitemap defaults
@@ -267,10 +267,11 @@ class SeoPageExtension extends DataExtension
     public function updateSummaryFields(&$fields)
     {
         if(Controller::curr() instanceof SEOAdmin) {
-            if($this->owner->class && method_exists($this->owner->class, 'remove')) Config::inst()->remove($this->owner->class, 'summary_fields');
-            Config::modify()->set($this->owner->class, 'summary_fields', $this->getSummaryFields());
+            $class = get_class($this->owner);
+            Config::inst()->remove($class, 'summary_fields');
+            Config::modify()->set($class, 'summary_fields', $this->getSummaryFields());
 
-            $fields = Config::inst()->get($this->owner->class, 'summary_fields');
+            $fields = Config::inst()->get($class, 'summary_fields');
         }
     }
 
